@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Naman Rathi | Portfolio</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; transition: all 0.4s ease; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background:#000;
+      color:#fff;
+      line-height:1.6;
+      overflow-x:hidden;
+      position:relative;
+    }
+
+    /* Clean Animated Grid Background */
+    body::before {
+      content:"";
+      position:fixed;
+      top:0; left:0;
+      width:200%; height:200%;
+      background: 
+        linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: moveGrid 25s linear infinite;
+      z-index:-1;
+    }
+    @keyframes moveGrid {
+      from { transform: translate(0,0); }
+      to   { transform: translate(-200px,-200px); }
+    }
+
+    /* Navbar */
+    nav {
+      position:fixed; top:0; left:0;
+      width:100%;
+      display:flex; justify-content:center;
+      background:rgba(0,0,0,0.8);
+      padding:15px;
+      z-index:1000;
+      backdrop-filter: blur(10px);
+    }
+    nav a {
+      margin:0 18px;
+      text-decoration:none;
+      color:#aaa;
+      font-weight:500;
+    }
+    nav a:hover { color:#fff; text-shadow:0 0 10px #fff; }
+
+    .dropdown { position:relative; }
+    .dropbtn { cursor:pointer; }
+    .dropdown-content {
+      display:none;
+      position:absolute;
+      background:rgba(20,20,20,0.95);
+      min-width:160px;
+      border-radius:10px;
+      box-shadow:0 0 20px rgba(255,255,255,0.1);
+      top:45px; left:0;
+    }
+    .dropdown-content a {
+      display:block;
+      padding:12px 16px;
+      color:#fff;
+      text-decoration:none;
+    }
+    .dropdown-content a:hover { background:rgba(255,255,255,0.1); }
+    .dropdown:hover .dropdown-content { display:block; }
+    .dropdown:hover .dropbtn { color:#fff; }
+
+    /* Hero */
+    header {
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      padding:20px;
+    }
+    .hero-photo {
+      width:180px; height:180px;
+      border-radius:50%;
+      overflow:hidden;
+      margin-bottom:20px;
+      box-shadow:0 0 20px rgba(255,255,255,0.2);
+    }
+    .hero-photo img { width:100%; height:100%; object-fit:cover; }
+    .glow {
+      font-size:3rem;
+      font-weight:700;
+      text-shadow:0 0 20px #fff, 0 0 40px #fff;
+      animation:glowPulse 3s infinite alternate;
+    }
+    @keyframes glowPulse {
+      from { text-shadow:0 0 10px #fff, 0 0 20px #fff; }
+      to { text-shadow:0 0 30px #fff, 0 0 60px #fff; }
+    }
+    header h3 { font-weight:400; color:#ccc; margin-top:10px; }
+    header p { margin-top:15px; font-size:1.1rem; max-width:700px; }
+    header a { margin-top:25px; display:inline-block; color:#fff; font-weight:600; text-decoration:none; }
+    header a:hover { text-shadow:0 0 15px #fff; }
+
+    /* Section Generic */
+    section { padding:90px 20px; max-width:1100px; margin:auto; text-align:center; }
+    section h2 {
+      font-size:2.3rem;
+      margin-bottom:35px;
+      text-shadow:0 0 12px #fff;
+    }
+
+    /* Explore */
+    .options {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+      gap:25px;
+    }
+    .option-card {
+      background:rgba(20,20,20,0.9);
+      padding:40px;
+      border-radius:20px;
+      cursor:pointer;
+      box-shadow:0 0 10px rgba(255,255,255,0.05);
+      color:#fff;
+      text-decoration:none;
+    }
+    .option-card:hover {
+      transform:translateY(-10px) scale(1.05);
+      background:#fff;
+      color:#000;
+    }
+
+    /* Projects */
+#projects {
+  padding:90px 20px;
+  max-width:1100px;
+  margin:auto;
+  text-align:center;
+}
+
+.projects-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+  gap:25px;
+}
+
+.project-card {
+  height:200px;
+  border-radius:15px;
+  background:rgba(20,20,20,0.9);
+  box-shadow:0 0 10px rgba(255,255,255,0.05);
+}
+
+/* Loading animation */
+.project-card.loading {
+  background:linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+  background-size: 200% 100%;
+  animation: loadingPulse 1.5s infinite;
+}
+
+@keyframes loadingPulse {
+  0% { background-position:200% 0; }
+  100% { background-position:-200% 0; }
+}
+
+
+    /* Academics + Achievements Cards */
+    .edu-card {
+      display:flex; align-items:center;
+      background:rgba(20,20,20,0.9);
+      padding:20px 25px;
+      border-radius:15px;
+      margin-bottom:25px;
+      text-align:left;
+      box-shadow:0 0 10px rgba(255,255,255,0.05);
+    }
+    .edu-card:hover { box-shadow:0 0 25px rgba(255,255,255,0.4); }
+    .edu-logo { flex-shrink:0; width:70px; height:70px; border-radius:50%; overflow:hidden; margin-right:20px; }
+    .edu-logo img { width:100%; height:100%; object-fit:contain; }
+    .edu-info h3 { font-size:1.3rem; margin-bottom:5px; }
+    .edu-info p { color:#ddd; font-size:1rem; margin-bottom:5px; }
+
+    /* Skills */
+    #skills .skill-list {
+      display:flex; flex-wrap:wrap; gap:15px; justify-content:center;
+    }
+    .skill-tag {
+      background:blue;
+      color:white;
+      padding:10px 18px;
+      border-radius:20px;
+      font-weight:500;
+    }
+
+    /* Contact */
+    #contact { background:#0f0f0f; }
+    #contact h2 { color:#fff; }
+    .contact-links { display:flex; justify-content:center; flex-wrap:wrap; gap:30px; }
+    .contact-links a {
+      display:flex; align-items:center; gap:10px;
+      text-decoration:none; color:#fff; font-size:1.1rem;
+    }
+    .contact-links a:hover { color:#ccc; }
+
+    /* Footer */
+    footer { text-align:center; padding:25px; color:#888; background:#000; font-size:0.9rem; }
+    footer:hover { color:#fff; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <a href="#about">About</a>
+    <div class="dropdown">
+      <a class="dropbtn">Explore ▼</a>
+      <div class="dropdown-content">
+        <a href="#academics">📘 Academics</a>
+        <a href="#achievements">🏆 Achievements</a>
+        <a href="#goals">🚀 Goals</a>
+        <a href="#skills">💡 Skills</a>
+      </div>
+    </div>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- Hero -->
+  <header id="about">
+    <div class="hero-photo">
+      <img src="image profile.png" alt="Naman Rathi">
+    </div>
+    <h1 class="glow">👋 Hi, I'm Naman Rathi</h1>
+    <h3>Student | Software Developer | Tech Enthusiast</h3>
+    <p>
+      I am a passionate technology enthusiast with a relentless drive for learning and innovation. 
+      With achievements at regional and national competitions, I thrive on challenges 
+      that push my skills and creativity. My goal is to build impactful solutions that make a difference.
+    </p>
+    <a href="#options">▼ Explore More</a>
+  </header>
+
+  <!-- Explore -->
+  <section id="options">
+    <h2>Explore</h2>
+    <div class="options">
+      <a href="#academics" class="option-card">📘 Academics</a>
+      <a href="#achievements" class="option-card">🏆 Achievements</a>
+      <a href="#goals" class="option-card">🚀 Goals</a>
+      <a href="#skills" class="option-card">💡 Skills</a>
+      <a href="#projects" class="option-card">💡 projects</a>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <h2>💡 Skills</h2>
+    <div class="skill-list">
+      <span class="skill-tag">C</span>
+      <span class="skill-tag">Python</span>
+      <span class="skill-tag">Java</span>
+      <span class="skill-tag">HTML</span>
+      <span class="skill-tag">CSS</span>
+      <span class="skill-tag">Javascript</span>
+      <span class="skill-tag">Web Development</span>
+      <span class="skill-tag">Problem Solving</span>
+    </div>
+  </section>
+
+  <!-- Achievements -->
+  <section id="achievements">
+    <h2>🏆 Achievements</h2>
+
+    <div class="edu-card">
+      <div class="edu-logo">
+        <img src="wro logo.png" alt="World Robot Olympiad Logo">
+      </div>
+      <div class="edu-info">
+        <h3>World Robot Olympiad</h3>
+        <p>Regionals</p>
+        <p>2017 - Secured 2nd Rank at the regionals</p>
+      </div>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-logo">
+        <img src="wro logo.png" alt="World Robot Olympiad Logo">
+      </div>
+      <div class="edu-info">
+        <h3>World Robot Olympiad</h3>
+        <p>Nationals</p>
+        <p>2017, 2018 - Participated</p>
+      </div>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-logo">
+        <img src="iitjdplogo.png" alt="IIT Jodhpur Logo">
+      </div>
+      <div class="edu-info">
+        <h3>IIT Jodhpur</h3>
+        <p>Participated and secured 3rd rank at the IIT Jodhpur Techfest IGNUS'2019 in the line seguidor competition</p>
+      </div>
+    </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+  <h2>💻 Projects</h2>
+  <div class="projects-grid">
+    <div class="project-card loading"></div>
+    <div class="project-card loading"></div>
+  </div>
+</section>
+
+
+  <!-- Academics -->
+  <section id="academics">
+    <h2>📘 Academics</h2>
+    <div class="edu-card">
+      <div class="edu-logo"><img src="bits logo.png" alt="BITS Pilani"></div>
+      <div class="edu-info">
+        <h3>BITS Pilani</h3>
+        <p><strong>Bsc Hons Computer Science</strong></p>
+        <span>Oct 2025 – May 2029</span>
+      </div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-logo"><img src="scaler logo.jpeg" alt="Scaler"></div>
+      <div class="edu-info">
+        <h3>Scaler School of Technology</h3>
+        <p><strong>Skill Strengthening</strong></p>
+        <span>August 2025-May 2029</span>
+      </div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-logo"><img src="global logo.jpeg" alt="Global Indian International School"></div>
+      <div class="edu-info">
+        <h3>Global Indian International School</h3>
+        <p><strong>Senior Secondary – Science (CBSE)</strong></p>
+        <span>Apr 2022 – May 2024</span>
+      </div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-logo"><img src="dps jodhour.jpeg" alt="Delhi Public School, Jodhpur"></div>
+      <div class="edu-info">
+        <h3>DPS Jodhpur</h3>
+        <p><strong>Primary & Secondary – CBSE</strong></p>
+        <span>Apr 2010 – Mar 2022</span>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <!-- Goals -->
+  <section id="goals">
+    <h2>🚀 Goals</h2>
+    <p><strong>Short-term:</strong> Build impactful open-source projects and strengthen problem-solving skills.</p>
+    <p><strong>Long-term:</strong> Innovate in AI-driven technologies and contribute to building scalable real-world solutions.</p>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <h2>📩 Contact</h2>
+    <div class="contact-links">
+      <a href="mailto:namanrobot@gmail.com"><img src="https://img.icons8.com/ios-filled/30/ffffff/new-post.png"/> Email</a>
+      <a href="https://linkedin.com/in/naman-rathi-5a35b51b7" target="_blank"><img src="https://img.icons8.com/ios-filled/30/ffffff/linkedin.png"/> LinkedIn</a>
+      <a href="https://github.com/naman2627" target="_blank"><img src="https://img.icons8.com/ios-glyphs/30/ffffff/github.png"/> GitHub</a>
+      <a href="https://instagram.com/" target="_blank"><img src="https://img.icons8.com/ios-filled/30/ffffff/instagram-new.png"/> Instagram</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Naman Rathi. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>
